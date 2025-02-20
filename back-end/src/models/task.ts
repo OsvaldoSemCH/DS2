@@ -2,6 +2,7 @@ import mongoose, { Schema, Document } from 'mongoose';
 
 interface ITask extends Document
 {
+    _id : string
     title : string
     description : string
     completed : boolean

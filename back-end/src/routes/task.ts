@@ -8,6 +8,8 @@ TaskRoutes.post('/', async (req: Request, res: Response) =>
     const Task : ITask = req.body;
     try
     {
+        Task.createdAt = new Date();
+        Task.updatedAt = new Date();
         const T = new TaskModel(Task);
         await T.save();
         res.status(201).json(T);

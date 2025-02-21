@@ -76,10 +76,8 @@ export default function Home()
         .then((data) => console.log(data))
         .catch((error) => {console.log(error)});
 
-        /*
         SetTitle("");
         SetDescription("");
-        */
     }
 
     return(
@@ -88,20 +86,20 @@ export default function Home()
             {
                 ShowDelete == null ? <></> :
                 <div className="fixed bg-black bg-opacity-50 z-50 inset-0 flex justify-center items-center">
-                    <div className="bg-blue-700 rounded-xl w-64 h-48 text-white flex flex-col justify-evenly items-center">
-                        <p className="text-xl font-bold">Are you sure?</p>
+                    <div className="bg-blue-700 rounded-xl w-64 h-48 flex flex-col justify-evenly items-center">
+                        <p className="text-xl font-bold text-white">Are you sure?</p>
                         <div className="flex gap-6">
-                            <button onClick={() => {DeleteTask(ShowDelete); SetShowDelete(null)}} className="bg-red-600 h-8 w-16 mt-12 rounded-lg">
+                            <button onClick={() => {DeleteTask(ShowDelete); SetShowDelete(null)}} className="bg-red-600 h-8 w-16 mt-12 rounded-lg text-white">
                                 Delete
                             </button>
-                            <button onClick={() => SetShowDelete(null)} className="bg-blue-300 h-8 w-16 mt-12 rounded-lg text-black">
+                            <button onClick={() => SetShowDelete(null)} className="bg-blue-300 h-8 w-16 mt-12 rounded-lg">
                                 Cancel
                             </button>
                         </div>
                     </div>
                 </div>
             }
-            <div className="w-96 px-12">
+            <div className="w-96 px-12 text-black">
                 <button onClick={() => SetShowNew(!ShowNew)} className="bg-blue-300 h-8 w-24 mt-12 rounded-lg">
                     {ShowNew ? "Hide" : "Create New"}
                 </button>
@@ -109,9 +107,9 @@ export default function Home()
                     ShowNew ?
                     <div className="flex flex-col">
                         <p>Title <span className="text-red-600">*</span>:</p>
-                        <input onChange={(text) => SetTitle(text.target.value)} type="text" className="border border-black"/>
+                        <input value={Title} onChange={(text) => SetTitle(text.target.value)} type="text" className="border border-black"/>
                         <p>Description:</p>
-                        <input onChange={(text) => SetDescription(text.target.value)} type="text" className="border border-black"/>
+                        <input value={Description} onChange={(text) => SetDescription(text.target.value)} type="text" className="border border-black"/>
                         {ShowRequired ? <p>Title is required</p> : <></>}
                         <button onClick={() => CreateTask()} className="bg-blue-300 h-8 w-24 mt-12 rounded-lg">
                             Create
@@ -147,7 +145,7 @@ export default function Home()
                     <tr key={index}>
                         <td className={tdstyle}>{item.title}</td>
                         <td className={tdstyle}>{item.description}</td>
-                        <td className={tdstyle} onClick={() => ToggleCompleted(item)}>{item.completed ? "✅" : "❌"}</td>
+                        <td className={tdstyle + " text-2xl"} onClick={() => ToggleCompleted(item)}>{item.completed ? "✅" : "❌"}</td>
                         <td className={tdstyle}>{new Date(item.createdAt).toLocaleString("pt-BR")}</td>
                         {
                             item.updatedAt == item.createdAt ?
@@ -155,7 +153,7 @@ export default function Home()
                             :
                             <td className={tdstyle}>{new Date(item.updatedAt).toLocaleString("pt-BR")}</td>
                         }
-                        <td className={tdstyle} onClick={() => SetShowDelete(item)}>🗑</td>
+                        <td className={tdstyle + " text-2xl"} onClick={() => SetShowDelete(item)}>🗑</td>
                     </tr>
                     )
                 })}

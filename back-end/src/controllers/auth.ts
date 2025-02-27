@@ -48,7 +48,7 @@ export default class AuthController
         const Secret = process.env.SECRET;
         if(Secret == undefined){return;}
 
-        const Token = jwt.sign({id:User._id,},Secret,{expiresIn:"2 days"});
+        const Token = jwt.sign({id:User._id,},Secret,{expiresIn:"2 years"});
 
         res.status(200).send({token:Token})
     }

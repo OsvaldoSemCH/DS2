@@ -13,50 +13,11 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Cliente{
-  IDCliente Int @id
-  Nome String
-  Telefone String
-  Endereco String
-  Veiculos Veiculo[]
-  Ordems Ordem[]
-}
-
-model Servico{
-  IDServico Int @id
-  Preco Float
-  ItemsServico ItemServico[]
-}
-
-model Veiculo{
-  IDVeiculo Int @id
-  Marca String
-  Modelo String
-  Ano Int
-  Placa String
-  IDCliente Int
-  Ordems Ordem[]
-  Dono Cliente @relation(fields: [IDCliente], references: [IDCliente])
-}
-
-model Ordem{
-  IDOrdem Int @id
-  DataEntrada DateTime @default(now())
-  DataSaida DateTime
-  Status String
-  Observacao String
-  IDCliente Int
-  IDVeiculo Int
-  Cliente Cliente @relation(fields: [IDCliente], references: [IDCliente])
-  Veiculo Veiculo @relation(fields: [IDVeiculo], references: [IDVeiculo])
-  ItemsServico ItemServico[]
-}
-
-model ItemServico{
-  IDItemServico Int @id
-  Quantidade Float
-  IDOrdem Int
-  IDServico Int
-  Ordem Ordem @relation(fields: [IDOrdem], references: [IDOrdem])
-  Servico Servico @relation(fields: [IDServico], references: [IDServico])
+model Task{
+  id Int @id @default(autoincrement())
+  title String
+  description String 
+  completed Boolean @default(false) 
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
 }

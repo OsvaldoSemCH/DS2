@@ -1,13 +1,14 @@
 import TaskModel, { ITask } from "../models/task.ts";
 import express, { Request, Response, Router } from 'express';
+import { prisma } from "../lib/prisma.ts";
 
-export default class TaskController
+export default class SqlTaskController
 {
     static async GetTasks(req : Request, res : Response)
     {
         try
         {
-            const T = await TaskModel.find();
+            const T = prisma.task.findMany();
             res.status(201).json(T);
         }catch(error)
         {
@@ -22,8 +23,7 @@ export default class TaskController
         {
             Task.createdAt = new Date();
             Task.updatedAt = new Date();
-            const T = new TaskModel(Task);
-            await T.save();
+            const T = await prisma.task.create({data: {title: Task.title, description: Task.description}})
             res.status(201).json(T);
         }catch(error)
         {
@@ -36,7 +36,7 @@ export default class TaskController
         const id = req.params.id;
         try
         {
-            const T = await TaskModel.findById(id);
+            const T = await prisma.task.findUnique({where: {id: parseInt(id)}});
             if(T)
             {
                 res.status(201).json(T);
@@ -57,7 +57,7 @@ export default class TaskController
         try
         {
             Task.updatedAt = new Date();
-            const T = await TaskModel.findByIdAndUpdate(id, Task, { new: true });
+            const T = await prisma.task.update({where: {id: parseInt(id)}, data: Task});
             if(T)
             {
                 res.status(200).json(T);
@@ -76,7 +76,7 @@ export default class TaskController
         const id = req.params.id;
         try
         {
-            const T = await TaskModel.findByIdAndDelete(id);
+            const T = await prisma.task.delete({where: {id: parseInt(id)}})
             if(T)
             {
                 res.status(200).json({message: 'Task deleted successfully'});
